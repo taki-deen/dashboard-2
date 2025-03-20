@@ -29,15 +29,17 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 Route::prefix('super-admin')->as('super.')->middleware(['super_admin'])->group(function () {
-
-Route::get('/index',[SuperDashboardController::class,'index'])->name('index');
-
-Route::prefix('products')->as('product.')->group(function(){
-    Route::get('/',[ProductController::class,'index'])->name('index');
-    Route::post('/create',[ProductController::class,'create'])->name('create');
+    Route::get('/index', [SuperDashboardController::class, 'index'])->name('index');
+    
+    Route::prefix('products')->as('product.')->group(function() {
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::post('/create', [ProductController::class, 'create'])->name('create');
+        Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('edit'); // Show the edit form
+        Route::patch('/update/{id}', [ProductController::class, 'update'])->name('update'); // PATCH route for updating product
+    });
 });
 
-});
+
 Route::prefix('admin')->as('admin.')->middleware(['admin'])->group(function () {
 Route::get('/index',[AdminDashboardController::class,'index'])->name('index');
 
